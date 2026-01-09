@@ -33,8 +33,8 @@ print(f"Training samples: {len(X_train)}")
 print(f"Testing samples: {len(X_test)}")
 
 # Train model
-print("\n[5/6] Training Decision Tree Regressor (default params)...")
-model = DecisionTreeRegressor(random_state=42)
+print("\n[5/6] Training Decision Tree Regressor (max_depth=5)...")
+model = DecisionTreeRegressor(max_depth=5, random_state=42)
 model.fit(X_train, y_train)
 print("Training complete!")
 
@@ -61,12 +61,12 @@ print("Model saved to outputs/model.pkl")
 results = {
     "student": "Kishan",
     "roll_number": "2022BCS0206",
-    "experiment": "EXP-04",
+    "experiment": "EXP-05",
     "model": "DecisionTreeRegressor",
     "preprocessing": "None",
     "feature_selection": "All features",
     "test_split": 0.2,
-    "hyperparameters": "default",
+    "hyperparameters": {"max_depth": 5},
     "mse": float(mse),
     "r2_score": float(r2)
 }
