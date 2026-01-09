@@ -1,7 +1,8 @@
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import Ridge
+from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import mean_squared_error, r2_score
 import pickle
 import json
@@ -21,23 +22,25 @@ X = df.drop('quality', axis=1)
 y = df['quality']
 
 print(f"\n[2/6] Features: {X.shape[1]}")
-print(f"Target: quality (range {y.min()}-{y.max()})")
 
-# Preprocessing: None for Experiment 1
-print("\n[3/6] Preprocessing: None")
+# Preprocessing: Standardization
+print("\n[3/6] Preprocessing: StandardScaler")
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+print("Features standardized")
 print("Feature Selection: All features")
 
 # Train-test split
 print("\n[4/6] Splitting data (80-20)...")
 X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
+    X_scaled, y, test_size=0.2, random_state=42
 )
 print(f"Training samples: {len(X_train)}")
 print(f"Testing samples: {len(X_test)}")
 
 # Train model
-print("\n[5/6] Training Linear Regression model...")
-model = LinearRegression()
+print("\n[5/6] Training Ridge Regression model (alpha=1.0)...")
+model = Ridge(alpha=1.0)
 model.fit(X_train, y_train)
 print("Training complete!")
 
@@ -54,23 +57,22 @@ print(f"MSE: {mse:.4f}")
 print(f"R2 Score: {r2:.4f}")
 print("="*50)
 
-# Save model
+# Save outputs
 print("\nSaving outputs...")
 os.makedirs('outputs', exist_ok=True)
 with open('outputs/model.pkl', 'wb') as f:
     pickle.dump(model, f)
 print("Model saved to outputs/model.pkl")
 
-# Save results to JSON
 results = {
     "student": "Kishan",
     "roll_number": "2022BCS0206",
-    "experiment": "EXP-01",
-    "model": "LinearRegression",
-    "preprocessing": "None",
+    "experiment": "EXP-02",
+    "model": "Ridge",
+    "preprocessing": "StandardScaler",
     "feature_selection": "All features",
     "test_split": 0.2,
-    "hyperparameters": "default",
+    "hyperparameters": {"alpha": 1.0},
     "mse": float(mse),
     "r2_score": float(r2)
 }
