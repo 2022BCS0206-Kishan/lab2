@@ -17,18 +17,20 @@ print("\n[1/6] Loading dataset...")
 df = pd.read_csv('dataset/winequality-red.csv', sep=';')
 print(f"Dataset loaded: {df.shape[0]} rows, {df.shape[1]} columns")
 
-# Prepare features and target
-X = df.drop('quality', axis=1)
-y = df['quality']
+# Feature Selection: Top 6 correlated with quality
+print("\n[2/6] Feature Selection: Top 6 correlated features")
+corr = df.corr()['quality'].abs().sort_values(ascending=False)
+top_features = corr[1:7].index.tolist()
+print(f"Selected features: {top_features}")
 
-print(f"\n[2/6] Features: {X.shape[1]}")
+X = df[top_features]
+y = df['quality']
 
 # Preprocessing: Standardization
 print("\n[3/6] Preprocessing: StandardScaler")
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 print("Features standardized")
-print("Feature Selection: All features")
 
 # Train-test split
 print("\n[4/6] Splitting data (80-20)...")
@@ -67,10 +69,11 @@ print("Model saved to outputs/model.pkl")
 results = {
     "student": "Kishan",
     "roll_number": "2022BCS0206",
-    "experiment": "EXP-02",
+    "experiment": "EXP-03",
     "model": "Ridge",
     "preprocessing": "StandardScaler",
-    "feature_selection": "All features",
+    "feature_selection": "Top 6 correlated",
+    "selected_features": top_features,
     "test_split": 0.2,
     "hyperparameters": {"alpha": 1.0},
     "mse": float(mse),
