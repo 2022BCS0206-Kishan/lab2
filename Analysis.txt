@@ -1,0 +1,73 @@
+MLOps Lab 2 - Analysis
+
+Student Name: Kishan
+Roll Number: 2022BCS0206
+Date: January 10, 2026
+
+---
+
+Question 1: How did GitHub Actions improve experiment reproducibility?
+
+Answer:
+GitHub Actions created a consistent execution environment for all experiments. Each run used the same Ubuntu OS, Python 3.10, and dependency versions specified in requirements.txt. Every experiment is tied to a specific Git commit, meaning I can reproduce any experiment by checking out that commit and re-running it. The workflow file documents the exact steps taken, eliminating manual execution errors. Results and trained models are automatically saved as artifacts, preventing data loss. This approach removes dependency on my local machine configuration and ensures anyone can reproduce my results.
+
+---
+
+Question 2: How easy was it to compare results across runs?
+
+Answer:
+Comparing results was moderately easy. I could view all experiment results by browsing the Actions tab, and each Job Summary clearly displayed MSE and R2 scores in a formatted table. Commit messages helped identify which experiment configuration was used. However, there is no single centralized dashboard to compare all experiments side-by-side. I had to click through each run individually. For 7 experiments this was manageable, but for dozens or hundreds of experiments, this approach would become tedious.
+
+---
+
+Question 3: What role does Git commit history play in experiment tracking?
+
+Answer:
+Git commit history serves as a complete experiment log. Each commit message describes the model type, hyperparameters, preprocessing method, and feature selection used. I can reproduce any experiment exactly by checking out that specific commit hash. The commit history provides a clear audit trail showing what changed between experiments and when they were run. This makes collaboration easier since team members can see the full evolution of experiments. The timestamps show the chronological order of experiments, and Git diff functionality lets me see exactly what code changed between experiments.
+
+---
+
+Question 4: What were the benefits of this approach compared to Lab 1?
+
+Answer:
+
+Lab 1 Manual Approach:
+- Required manually running Python code and copying metrics into a table
+- High risk of typos when recording results
+- No automatic saving of trained models
+- Hard to reproduce experiments later
+- Manual tracking prone to human error
+- Results stored only in local files
+
+Lab 2 GitHub Actions Approach:
+- Automatic execution and metric logging with zero human error
+- Models and results automatically saved as downloadable artifacts
+- Complete reproducibility through Git version control
+- Clear history of what was tried and when
+- Professional CI/CD workflow similar to industry practices
+- Results accessible to anyone with repository access
+- Automatic documentation of environment and dependencies
+
+The automation in Lab 2 significantly improved reliability, reproducibility, and professional workflow standards.
+
+---
+
+Question 5: What limitations does this approach have?
+
+Answer:
+Despite its benefits, this approach has several limitations:
+
+1. Manual code editing: Each experiment requires manually editing train.py, which is tedious and error-prone
+2. No parameter files: Hyperparameters are hardcoded in the script rather than in separate configuration files
+3. Sequential execution: Cannot easily run multiple experiments in parallel
+4. No experiment search: Difficult to search or filter experiments by specific criteria
+5. No centralized dashboard: No single view comparing all experiments
+6. Commit overhead: Each experiment requires a full commit-push cycle
+7. Not scalable: Impractical for hundreds of experiments or hyperparameter tuning
+8. No automatic optimization: No built-in hyperparameter tuning or AutoML capabilities
+9. Limited visualization: No automatic plots or charts of results
+10. No experiment comparison tools: Cannot easily diff results between experiments
+
+This approach would benefit from MLOps tools like MLflow, Weights and Biases, or DVC that provide centralized experiment tracking, parameter configuration files, and comparison dashboards.
+
+---
